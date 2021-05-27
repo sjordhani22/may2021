@@ -49,7 +49,7 @@ public:
     {
         // Data we are sending to the server.
         HelloRequest request;
-        request.set_name(user);
+        request.set_name(user), request.set_reqkey(key);
 
         // Container for the data we expect from the server.
         HelloReply reply;
@@ -64,7 +64,7 @@ public:
         // Act upon its status.
         if (status.ok())
         {
-            return reply.message();
+            return reply.message() + " " + reply.repkey();
         }
         else
         {
@@ -79,7 +79,7 @@ public:
         HelloRequest request;
         // Set the name of the user
         // This request is a message that has a name fied which is a string
-        request.set_name(user);
+        request.set_name(user), request.set_reqkey(key);
 
         //"Container" for the data that we will be receiving from the server
         HelloReply reply;
@@ -94,7 +94,7 @@ public:
         if (status.ok())
         {
             // If everything worked, the message will be returned
-            return reply.message();
+            return reply.message() + " " + reply.repkey();
         }
         else
         {
@@ -145,10 +145,11 @@ int main(int argc, char **argv)
     }
     GreeterClient greeter(grpc::CreateChannel(target_str, grpc::InsecureChannelCredentials()));
     std::string user("Stefano");
-    std::string reply = greeter.SayHello(user);
+    std::string key("12345");
+    std::string reply = greeter.SayHello(user,key);
     std::cout << "Greeter received: " << reply << std::endl;
     // This is the second call
-    reply = greeter.SayHelloAgain(user);
+    reply = greeter.SayHelloAgain(user,key);
     std::cout << "Greeter received: " << reply << std::endl;
 
     return 0;

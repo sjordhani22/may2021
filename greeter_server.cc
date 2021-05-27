@@ -45,6 +45,7 @@ class GreeterServiceImpl final : public Greeter::Service
     {
         std::string prefix("Hello ");
         reply->set_message(prefix + request->name());
+        reply->set_repkey(request->reqkey());
         return Status::OK;
     }
 
@@ -52,6 +53,7 @@ class GreeterServiceImpl final : public Greeter::Service
     {
         std::string prefix("Hello Again ");
         reply->set_message(prefix + request->name());
+        reply->set_repkey(request->reqkey());
         return Status::OK;
     }
 };
